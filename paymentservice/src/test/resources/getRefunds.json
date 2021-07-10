@@ -1,0 +1,14 @@
+{
+  "errno": 0,
+  "errmsg": "成功",
+  "data": {
+    "id": 78,
+    "paymentId": 10200,
+    "amount": 80,
+    "state": 1,
+    "gmtCreate": "2020-11-30T7:18:00",
+    "gmtModified": "2020-11-30T8:18:00",
+    "orderId": 24,
+    "aftersaleId": 555
+  }
+}

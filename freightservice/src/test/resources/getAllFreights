@@ -1,0 +1,2 @@
+{"errno":0,"data":{"total":5,"pages":2,"pageSize":3,"page":1,"list":[{"id":1,"name":"默认","type":0,"defaultModel":"默认1","gmtCreate":"2020-11-26T10:02:35","gmtModified":"2020-11-26T21:51:45","unit":null},{"id":2,"name":"2233","type":0,"defaultModel":"默认1","gmtCreate":"2020-11-26T10:02:35","gmtModified":"2020-11-26T21:51:45","unit":null},
+{"id":3,"name":"3333","type":0,"defaultModel":"默认1","gmtCreate":"2020-11-26T10:02:35","gmtModified":"2020-11-26T21:51:45","unit":null}]},"errmsg":"成功"}

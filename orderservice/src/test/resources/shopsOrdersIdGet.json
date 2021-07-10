@@ -1,0 +1,36 @@
+{
+  "errno": 0,
+  "data": {
+    "id": 38050,
+    "customerId": 1,
+    "shopId": 1,
+    "pid": null,
+    "orderType": null,
+    "state": 6,
+    "subState": null,
+    "gmtCreate": "2020-11-28T17:48:46",
+    "originPrice": null,
+    "discountPrice": null,
+    "freightPrice": null,
+    "message": null,
+    "regionId": null,
+    "address": null,
+    "mobile": null,
+    "consignee": "刘勤",
+    "couponId": null,
+    "grouponId": null,
+    "orderItemList": [
+      {
+        "skuId": 185,
+        "orderId": 38050,
+        "name": null,
+        "quantity": 1,
+        "price": 4475,
+        "discount": null,
+        "couponActId": null,
+        "beSharedId": null
+      }
+    ]
+  },
+  "errmsg": "成功"
+}

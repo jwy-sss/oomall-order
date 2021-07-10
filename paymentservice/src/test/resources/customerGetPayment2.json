@@ -1,0 +1,20 @@
+{
+  "errno": 0,
+
+  "data":
+    {
+      "id": 150,
+      "orderId": 38052,
+      "aftersaleId": 234,
+      "amount": 120,
+      "actualAmount": 150,
+      "payTime": "2020-12-4T19:28:36",
+      "paymentPattern": "string",
+      "state": 0,
+      "beginTime": "2020-11-11T9:20:00",
+      "endTime": "2020-11-11T9:30:00",
+      "gmtCreate": "2020-11-11T9:10:00",
+      "gmtModified": "2020-11-11T9:11:00"
+    },
+  "errmsg": "成功"
+}

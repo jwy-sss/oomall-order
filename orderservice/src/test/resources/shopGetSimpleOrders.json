@@ -1,0 +1,77 @@
+{
+  "errno": 0,
+  "data": {
+    "total": 6,
+    "pages": 2,
+    "pageSize": 5,
+    "page": 1,
+    "list": [
+      {
+        "id": 38050,
+        "customerId": 1,
+        "shopId": 1,
+        "pid": null,
+        "orderType": null,
+        "state": 6,
+        "subState": null,
+        "gmtCreateTime": "2020-11-28T17:48:46",
+        "originPrice": null,
+        "discountPrice": null,
+        "freightPrice": null
+      },
+      {
+        "id": 38051,
+        "customerId": 2,
+        "shopId": 1,
+        "pid": null,
+        "orderType": null,
+        "state": 6,
+        "subState": null,
+        "gmtCreateTime": "2020-11-28T17:48:46",
+        "originPrice": null,
+        "discountPrice": null,
+        "freightPrice": null
+      },
+      {
+        "id": 38052,
+        "customerId": 1,
+        "shopId": 1,
+        "pid": null,
+        "orderType": null,
+        "state": 6,
+        "subState": null,
+        "gmtCreateTime": "2020-11-28T17:48:46",
+        "originPrice": null,
+        "discountPrice": null,
+        "freightPrice": null
+      },
+      {
+        "id": 38053,
+        "customerId": 4,
+        "shopId": 1,
+        "pid": null,
+        "orderType": null,
+        "state": 6,
+        "subState": null,
+        "gmtCreateTime": "2020-11-28T17:48:46",
+        "originPrice": null,
+        "discountPrice": null,
+        "freightPrice": null
+      },
+      {
+        "id": 38054,
+        "customerId": 1,
+        "shopId": 1,
+        "pid": null,
+        "orderType": null,
+        "state": 6,
+        "subState": null,
+        "gmtCreateTime": "2020-11-28T17:48:46",
+        "originPrice": null,
+        "discountPrice": null,
+        "freightPrice": null
+      }
+    ]
+  },
+  "errmsg": "成功"
+}

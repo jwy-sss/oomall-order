@@ -1,0 +1,14 @@
+{
+  "errno": 0,
+  "errmsg": "string",
+  "data": {
+    "id": 34,
+    "paymentId": 77,
+    "amount": 98,
+    "state": 1,
+    "gmtCreate": "string",
+    "gmtModified": "string",
+    "orderId": 34,
+    "aftersaleId": 5554
+  }
+}

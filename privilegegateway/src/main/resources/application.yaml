@@ -1,0 +1,204 @@
+server:
+  port: 8080
+
+order-ip:
+  order: http://172.16.2.68:8080
+  freight: http://172.16.4.195:8080
+  payment: http://172.16.1.187:8080
+
+dubbo:
+  # 配置服务信息
+  application:
+    name: privilege-gateway
+    # 禁用QOS同一台机器可能会有端口冲突现象
+    qos-enable: false
+    qos-accept-foreign-ip: false
+  # 配置注册中心
+  registry:
+    address: nacos://127.0.0.1:8848
+  # 设置协议-协议由提供方指定消费方被动接受
+  protocol:
+    name: dubbo
+    port: -3
+    # 设置超时时间
+  consumer:
+    timeout: 8000
+    check: false
+
+spring:
+  application:
+    name: privilege-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
+              - OPTIONS
+
+      routes:
+        - id: login
+          uri: http://127.0.0.1:8081/
+          predicates:
+            - Path=/adminusers,/adminusers/login,/adminusers/states
+          filters:
+            - PrefixPath=/privilege
+
+        - id: adminusers
+          uri: http://127.0.0.1:8081/
+          predicates:
+            - Path=/adminusers/**,/shops/{shopid}/adminusers/**,/proxies/**,/shops/{shopid}/proxies/**,/shops/{shopid}/roles/**,/shops/{shopid}/roleprivileges/**,/privileges/**,/roles/**,/roles,/shops/{shopid}/roles
+          filters:
+            - PrefixPath=/privilege
+            - Auth=authorization
+        
+        - id: groupon
+          uri: http://172.16.1.45:8081/
+          predicates:
+          - Path=/shops/{id}/groupons,/shops/{shopId}/spus/{id}/groupons,/shops/{shopId}/groupons/{id},/shops/{shopId}/groupons/{id}/onshelves,/shops/{shopId}/groupons/{id}/offshelves
+          filters:
+            - PrefixPath=/groupon
+            - Auth=authorization
+
+        - id: presale
+          uri: http://172.16.1.45:8081/
+          predicates:
+            - Path=/shops/{shopId}/skus/{id}/presales,/shops/{shopId}/presales/{id},/shops/{shopId}/presales/{id}/onshelves,/shops/{shopId}/presales/{id}/offshelves,/groupons/states,/groupons,/shops/{id}/groupons,/shops/{shopId}/spus/{id}/groupons,/shops/{shopId}/groupons/{id},/shops/{shopId}/groupons/{id}/onshelves,/shops/{shopId}/groupons/{id}/offshelves
+          filters:
+            - PrefixPath=/presale
+            - Auth=authorization
+
+        - id: flashsale
+          uri: http://172.16.1.45:8081/
+          predicates:
+            - Path=/shops/{did}/flashsales/{id},/shops/{did}/flashsales/{id}/onshelves,/shops/{did}/flashsales/{id}/offshelves,/shops/{did}/flashsales/{id}/flashitems,/shops/{did}/flashsales/{fid}/flashitems/{id}
+          filters:
+            - PrefixPath=/flashsale
+            - Auth=authorization
+            
+        - id: coupon
+          uri: http://172.16.1.45:8081/
+          predicates:
+            - Path=/shops/{shopId}/couponactivities,/shops/{shopId}/couponactivities/{id}/uploadImg,/shops/{id}/couponactivities/invalid,/shops/{shopId}/couponactivities/{id},/shops/{shopId}/couponactivities/{id}/skus,/shops/{shopId}/couponskus/{id},/shops/{shopId}/couponactivities/{id}/onshelves,/shops/{shopId}/couponactivities/{id}/offshelves,/shops/{shopId}/couponskus/{id}
+          filters:
+            - PrefixPath=/coupon
+            - Auth=authorization
+
+        - id: comment
+          uri: http://172.16.1.44:8081/
+          predicates:
+            -Path=/shops/{did}/comments/{id}/confirm,/shops/{id}/comments/all
+          filters:
+            - PrefixPath=/comment
+            - Auth=authorization
+
+        - id: shops
+          uri: http://172.16.1.44:8081/
+          predicates:
+            -Path=/shops/{id},/shops/{shopId}/newshops/{id}/audit,/shops/{id}/onshelves,/shops/{id}/offshelves
+          filters:
+            - PrefixPath=/shop
+            - Auth=authorization
+
+        - id: goods
+          uri: http://172.16.1.44:8081/
+          predicates:
+            -Path=/shops/{shopId}/brands/{id},/shops/{shopId}/brands/{id},/shops/{id}/brands,/shops/{shopId}/skus/{id},/shops/{shopId}/spus/{id}/skus,/shops/{shopId}/skus/{id},/shops/{id}/spus,/shops/{shopId}/spus/{id},/shops/{shopId}/spus/{id}),/shops/{shopId}/skus/{id}/onshelves,/shops/{shopId}/spus/{spuId}/brands/{id},/shops/{shopId}/spus/{spuId}/brands/{id},/shops/{shopId}/skus/{id}/uploadImg,/shops/{shopId}/spus/{id}/uploadImg,/shops/{shopId}/brands/{id}/uploadImg,/shops/{shopId}/spus/{spuId}/categories/{id},/shops/{shopId}/spus/{spuId}/categories/{id},/categories/{id}/subcategories,/categories/{id},/categories/{id},/shops/{shopId}/floatPrices/{id},/shops/{shopId}/skus/{id}/floatPrices
+          fliters:
+            - PrefixPath=/goods
+            - Auth=authorization
+
+        - id: orders
+          uri: ${order-ip.order}
+          predicates:
+            - Path=/shops/{shopId}/orders,/shops/{shopId}/orders/{id},/shops/{shopId}/orders/{id}/deliver
+          filters:
+            - PrefixPath=/order
+            - Auth=authorization
+
+#          获取状态不需要登录
+        - id: orders2
+          uri: ${order-ip.order}
+          predicates:
+            - Path=/orders/states
+          filters:
+            - PrefixPath=/order
+
+        - id: freights
+          uri: ${order-ip.freight}
+          predicates:
+            - Path=/shops/{id}/freightmodels,/shops/{shopId}/freightmodels/{id}/clone,/shops/{shopId}/freightmodels/{id},/shops/{shopId}/freight_models/{id}/default,/shops/{shopId}/freightmodels/{id}/**,/shops/{shopId}/weightItems/{id},/shops/{shopId}/pieceItems/{id}
+          filters:
+            - PrefixPath=/freight
+            - Auth=authorization
+
+        - id: payments
+          uri: ${order-ip.payment}
+          predicates:
+            - Path=/shops/{shopId}/orders/{id}/payments,/shops/{shopId}/aftersales/{id}/payments,/shops/{shopId}/payments/{id}/refunds,/shops/{shopId}/orders/{id}/refunds,/shops/{shopId}/aftersales/{id}/refunds
+          filters:
+            - PrefixPath=/payment
+            - Auth=authorization
+
+        - id: payments2
+          uri: ${order-ip.payment}
+          predicates:
+            - Path=/payments/states,/payments/patterns
+          filters:
+            - PrefixPath=/payment
+
+  redis:
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码
+    password: 123456
+    # Redis数据库索引（默认为0）
+    database: 0
+    #连接池最大连接数（使用负值表示没有限制）
+    lettuce:
+      pool:
+        max-active: 100
+        # 连接池中的最大空闲连接
+        max-idle: 100
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+    # 连接超时时间（毫秒）
+    timeout: 5000
+
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+
+# 配置rocketmq
+rocketmq:
+  # 指定namesrv地址
+  name-server: 127.0.0.1:9876
+  producer:
+    #生产者group名称
+    group: producer_group
+    #一次发送多少数量消息
+    max-message-size: 4096
+    #发送消息超时时间,默认3000
+    send-message-timeout: 3000
+    #发送消息失败重试次数，默认2
+    retry-times-when-send-async-failed: 2
+
+# 网关token相关配置
+privilegegateway:
+  jwtExpire: 3600
+  refreshJwtTime: 60
